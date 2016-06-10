@@ -1,20 +1,26 @@
 call plug#begin('~/.vim/plugged')
 
-Plug 'tpope/vim-dispatch'
-Plug 'tpope/vim-surround'
-Plug 'itchyny/lightline.vim'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --gocode-completer' }
-Plug 'fatih/vim-go'
-Plug 'garyburd/go-explorer'
-Plug 'morhetz/gruvbox'          " color schema 
-Plug 'w0ng/vim-hybrid'          " color schema
-Plug 'fatih/molokai'            " color schema
-Plug 'chriskempson/base16-vim'  " color schema
-Plug 'chriskempson/vim-tomorrow-theme' 
 
+Plug 'itchyny/lightline.vim'
+Plug 'majutsushi/tagbar'
 Plug 'Raimondi/delimitMate'
 Plug 'scrooloose/nerdtree'
-Plug 'majutsushi/tagbar'
+
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --gocode-completer' }
+
+Plug 'fatih/vim-go'
+Plug 'garyburd/go-explorer'
+
+Plug 'vim-scripts/indentpython.vim'
+Plug 'scrooloose/syntastic'
+Plug 'nvie/vim-flake8'
+
+Plug 'morhetz/gruvbox'          " color schema 
+Plug 'chriskempson/base16-vim'  " color schema
 
 call plug#end()
 
@@ -33,7 +39,7 @@ set showcmd                     " Show me what I'm typing
 set showmode                    " Show current mode.
 
 set noswapfile                  " Don't use swapfile
-set nobackup            	" Don't create annoying backup files
+set nobackup            		" Don't create annoying backup files
 set splitright                  " Split vertical windows right to the current windows
 set splitbelow                  " Split horizontal windows below to the current windows
 set encoding=utf-8              " Set default encoding to UTF-8
@@ -41,6 +47,7 @@ set autowrite                   " Automatically save before :next, :make etc.
 set autoread                    " Automatically reread changed files without asking me anything
 set laststatus=2
 set hidden
+set colorcolumn=80
 
 set noshowmatch                 " Do not show matching brackets by flickering
 set nocursorcolumn
@@ -52,7 +59,8 @@ set smartcase                   " ... but not when search pattern contains upper
 set ttyfast
 set ttymouse=xterm2
 set ttyscroll=3
-set lazyredraw          	" Wait to redraw "
+
+set lazyredraw          		" Wait to redraw "
 
 " speed up syntax highlighting
 set nocursorcolumn
@@ -74,17 +82,27 @@ if has("gui_macvim")
   set guioptions-=L
   set guioptions-=r             "no scrollbar
   set guioptions-=R
-endif 
+endif
  
 syntax enable
-" set t_Co=256
-set background=dark
-let base16colorspace=256
-" colorscheme Tomorrow
-" colorscheme base16-default
-colorscheme gruvbox
-let g:gruvbox_contrast_dark = "hard"
+let g:base16_shell_path= "~/.config/base16-shell/"
 
+" if has('gui_running')
+if $TERM_PROGRAM == "Apple_Terminal"
+  set background=dark
+  colorscheme gruvbox
+  let g:gruvbox_contrast_dark = "hard"
+else
+  let base16colorspace=256
+  set t_Co=256
+  set background=dark
+  colorscheme base16-tomorrow
+endif
+
+
+" ----------------------------------------- "
+" Mappings			    					" 			    
+" ----------------------------------------- "
 
 let mapleader = ","
 let g:mapleader = ","
@@ -136,23 +154,23 @@ au VimResized * :wincmd =
 
 
 " ----------------------------------------- "
-" File Type settings 			    "
+" File Type settings 			    		"
 " ----------------------------------------- "
 
-au BufNewFile,BufRead *.vim setlocal noet ts=4 sw=4 sts=4
+au BufNewFile,BufRead *.go setlocal noet ts=4 sw=4 sts=4
+au BufNewFile,BufRead *.ino setlocal noet ts=4 sw=4 sts=4
+au BufNewFile,BufRead *.vim setlocal expandtab shiftwidth=4 tabstop=4
 au BufNewFile,BufRead *.txt setlocal noet ts=4 sw=4
 au BufNewFile,BufRead *.md setlocal noet ts=4 sw=4
+au BufNewFile,BufRead *.py setlocal noet ts=4 sw=4 sts=4
+
+autocmd FileType json setlocal expandtab shiftwidth=2 tabstop=2
+autocmd FileType ruby setlocal expandtab shiftwidth=2 tabstop=2
 
 augroup filetypedetect
   au BufNewFile,BufRead .tmux.conf*,tmux.conf* setf tmux
   au BufNewFile,BufRead .nginx.conf*,nginx.conf* setf nginx
 augroup END
-
-au FileType nginx setlocal noet ts=4 sw=4 sts=4
-
-" Go settings
-au BufNewFile,BufRead *.go setlocal noet ts=4 sw=4 sts=4
-
 
 " Wildmenu completion {{{
 set wildmenu
@@ -168,9 +186,9 @@ set wildignore+=*.sw?                            " Vim swap files
 set wildignore+=*.DS_Store                       " OSX bullshit
 set wildignore+=*.luac                           " Lua byte code
 set wildignore+=migrations                       " Django migrations
-set wildignore+=go/pkg                       " Go static files
-set wildignore+=go/bin                       " Go bin files
-set wildignore+=go/bin-vagrant               " Go bin-vagrant files
+set wildignore+=go/pkg                       	" Go static files
+set wildignore+=go/bin                       	" Go bin files
+set wildignore+=go/bin-vagrant               	" Go bin-vagrant files
 set wildignore+=*.pyc                            " Python byte code
 set wildignore+=*.orig                           " Merge resolution files
 
@@ -180,22 +198,36 @@ set wildignore+=*.orig                           " Merge resolution files
 " Plugin configs			    			" 			    
 " ----------------------------------------- "
 
+" ==================== Fugitive ====================
+vnoremap <leader>gb :Gblame<CR>
+nnoremap <leader>gb :Gblame<CR>
+
 
 " ==================== YouCompleteMe ====================
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_min_num_of_chars_for_completion = 1
-"
+
+let g:ycm_python_binary_path = '/usr/local/bin/python3'
+
 
 " ==================== Vim-go ====================
-let g:go_fmt_fail_silently = 0
+let g:go_fmt_fail_silently = 1
 let g:go_fmt_command = "goimports"
 let g:go_autodetect_gopath = 1
 
 let g:go_highlight_space_tab_error = 0
 let g:go_highlight_array_whitespace_error = 0
 let g:go_highlight_trailing_whitespace_error = 0
-let g:go_highlight_extra_types = 0
-let g:go_highlight_operators = 0
+
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_interfaces = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_format_strings = 1
 
 au FileType go nmap <Leader>s <Plug>(go-def-split)
 au FileType go nmap <Leader>v <Plug>(go-def-vertical)
@@ -209,6 +241,21 @@ au FileType go nmap <Leader>t  <Plug>(go-test-compile)
 au FileType go nmap <Leader>d <Plug>(go-doc)
 au FileType go nmap <Leader>f :GoImports<CR>
 au FileType go nmap <Leader>l :GoLint<CR>
+
+
+" ==================== Vim-flake8 ====================
+autocmd BufRead,BufNewFile *.py let python_highlight_all=1
+autocmd BufRead,BufNewFile *.py let python_highlight_space_errors=0
+
+
+" ==================== delimitMate ====================
+let g:delimitMate_expand_cr = 1		
+let g:delimitMate_expand_space = 1		
+let g:delimitMate_smart_quotes = 1		
+let g:delimitMate_expand_inside_quotes = 0		
+let g:delimitMate_smart_matchpairs = '^\%(\w\|\$\)'		
+
+imap <expr> <CR> pumvisible() ? "\<c-y>" : "<Plug>delimitMateCR"
 
 
 " ==================== Lightline ====================
@@ -334,6 +381,7 @@ endfunction
 
 " Trigger a highlight in the appropriate direction when pressing these keys:
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+
 
 " ==================== NerdTree ====================
 " Open nerdtree in current dir, write our own custom function because

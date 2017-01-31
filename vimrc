@@ -11,6 +11,9 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --gocode-completer' }
+Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+
+Plug 'octol/vim-cpp-enhanced-highlight'
 
 Plug 'fatih/vim-go'
 Plug 'garyburd/go-explorer'
@@ -18,6 +21,8 @@ Plug 'garyburd/go-explorer'
 Plug 'vim-scripts/indentpython.vim'
 Plug 'scrooloose/syntastic'
 Plug 'nvie/vim-flake8'
+
+Plug 'junegunn/goyo.vim'
 
 Plug 'morhetz/gruvbox'          " color schema 
 Plug 'chriskempson/base16-vim'  " color schema
@@ -85,7 +90,7 @@ if has("gui_macvim")
 endif
  
 syntax enable
-let g:base16_shell_path= "~/.config/base16-shell/"
+let g:base16_shell_path= "~/.config/base16-shell/scripts"
 
 " if has('gui_running')
 if $TERM_PROGRAM == "Apple_Terminal"
@@ -97,8 +102,8 @@ else
   set t_Co=256
   set background=dark
   colorscheme base16-tomorrow
+  colorscheme base16-tomorrow-night
 endif
-
 
 " ----------------------------------------- "
 " Mappings			    					" 			    
@@ -164,6 +169,12 @@ au BufNewFile,BufRead *.txt setlocal noet ts=4 sw=4
 au BufNewFile,BufRead *.md setlocal noet ts=4 sw=4
 au BufNewFile,BufRead *.py setlocal noet ts=4 sw=4 sts=4
 
+au BufNewFile,BufRead *.cxx setlocal noet ts=2 sw=2 sts=2
+au BufNewFile,BufRead *.cpp setlocal noet ts=2 sw=2 sts=2
+au BufNewFile,BufRead *.hxx setlocal noet ts=2 sw=2 sts=2
+au BufNewFile,BufRead *.hpp setlocal noet ts=2 sw=2 sts=2
+
+
 autocmd FileType json setlocal expandtab shiftwidth=2 tabstop=2
 autocmd FileType ruby setlocal expandtab shiftwidth=2 tabstop=2
 
@@ -209,6 +220,8 @@ let g:ycm_min_num_of_chars_for_completion = 1
 
 let g:ycm_python_binary_path = '/usr/local/bin/python3'
 
+let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
+
 
 " ==================== Vim-go ====================
 let g:go_fmt_fail_silently = 1
@@ -246,6 +259,10 @@ au FileType go nmap <Leader>l :GoLint<CR>
 " ==================== Vim-flake8 ====================
 autocmd BufRead,BufNewFile *.py let python_highlight_all=1
 autocmd BufRead,BufNewFile *.py let python_highlight_space_errors=0
+
+
+" ============ Vim-cpp-enhanced-highlight ============
+let g:cpp_concepts_highlight = 1
 
 
 " ==================== delimitMate ====================

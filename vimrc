@@ -1,31 +1,42 @@
 call plug#begin('~/.vim/plugged')
 
-
 Plug 'itchyny/lightline.vim'
-Plug 'majutsushi/tagbar'
-Plug 'Raimondi/delimitMate'
 Plug 'scrooloose/nerdtree'
-
-Plug 'tpope/vim-dispatch'
+Plug 'majutsushi/tagbar'
 Plug 'tpope/vim-fugitive'
+
+Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-surround'
 
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --gocode-completer' }
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
-
-Plug 'octol/vim-cpp-enhanced-highlight'
-
-Plug 'fatih/vim-go'
-Plug 'garyburd/go-explorer'
-
-Plug 'vim-scripts/indentpython.vim'
 Plug 'scrooloose/syntastic'
-Plug 'nvie/vim-flake8'
 
-Plug 'junegunn/goyo.vim'
+Plug 'morhetz/gruvbox'          			" color schema 
+Plug 'chriskempson/base16-vim'  			" color schema
 
-Plug 'morhetz/gruvbox'          " color schema 
-Plug 'chriskempson/base16-vim'  " color schema
+Plug 'octol/vim-cpp-enhanced-highlight'			" C++ specific
+
+Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }	" Go specific 
+
+Plug 'vim-scripts/indentpython.vim'			" Python specific
+Plug 'nvie/vim-flake8'					" Python specific
+
+Plug 'junegunn/goyo.vim'				" Markdown specific
+
+"
+" Pending to decide
+"
+" Plug 'tpope/vim-dispatch'
+" Plug 'jeaye/color_coded'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
+" Plug 'fatih/molokai'
+" Plug 'garyburd/go-explorer'
+" autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+" autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+" autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+" autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
 
 call plug#end()
 
@@ -90,18 +101,13 @@ if has("gui_macvim")
 endif
  
 syntax enable
-let g:base16_shell_path= "~/.config/base16-shell/scripts"
 
-" if has('gui_running')
 if $TERM_PROGRAM == "Apple_Terminal"
   set background=dark
   colorscheme gruvbox
   let g:gruvbox_contrast_dark = "hard"
 else
   let base16colorspace=256
-  set t_Co=256
-  set background=dark
-  colorscheme base16-tomorrow
   colorscheme base16-tomorrow-night
 endif
 
@@ -209,9 +215,32 @@ set wildignore+=*.orig                           " Merge resolution files
 " Plugin configs			    			" 			    
 " ----------------------------------------- "
 
+" ==================== NerdTree ====================
+" Open nerdtree in current dir, write our own custom function because
+" NerdTreeToggle just sucks and doesn't work for buffers
+noremap <Leader>n :NERDTreeToggle<cr>
+noremap <Leader>f :NERDTreeFind<cr>
+
+let NERDTreeShowHidden = 1
+
+
+" ==================== Tagbar ====================
+nmap <F8> :TagbarToggle<CR>
+
+
 " ==================== Fugitive ====================
 vnoremap <leader>gb :Gblame<CR>
 nnoremap <leader>gb :Gblame<CR>
+
+
+" ==================== delimitMate ====================
+let g:delimitMate_expand_cr = 1		
+let g:delimitMate_expand_space = 1		
+let g:delimitMate_smart_quotes = 1		
+let g:delimitMate_expand_inside_quotes = 0		
+let g:delimitMate_smart_matchpairs = '^\%(\w\|\$\)'		
+
+imap <expr> <CR> pumvisible() ? "\<c-y>" : "<Plug>delimitMateCR"
 
 
 " ==================== YouCompleteMe ====================
@@ -219,19 +248,37 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_min_num_of_chars_for_completion = 1
 
 let g:ycm_python_binary_path = '/usr/local/bin/python3'
-
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
+
+
+" ==================== Syntastic ====================
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+
+" ============ Vim-cpp-enhanced-highlight ============
+let g:cpp_concepts_highlight = 1
+let g:cpp_class_scope_highlight = 1
 
 
 " ==================== Vim-go ====================
 let g:go_fmt_fail_silently = 1
 let g:go_fmt_command = "goimports"
 let g:go_autodetect_gopath = 1
+let g:go_auto_type_info = 1
 
 let g:go_highlight_space_tab_error = 0
 let g:go_highlight_array_whitespace_error = 0
 let g:go_highlight_trailing_whitespace_error = 0
 
+let g:go_highlight_types = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_fields = 1
@@ -251,6 +298,7 @@ au FileType go nmap <Leader>r  <Plug>(go-run)
 au FileType go nmap <Leader>b  <Plug>(go-build)
 au FileType go nmap <Leader>g  <Plug>(go-gbbuild)
 au FileType go nmap <Leader>t  <Plug>(go-test-compile)
+au FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
 au FileType go nmap <Leader>d <Plug>(go-doc)
 au FileType go nmap <Leader>f :GoImports<CR>
 au FileType go nmap <Leader>l :GoLint<CR>
@@ -259,20 +307,6 @@ au FileType go nmap <Leader>l :GoLint<CR>
 " ==================== Vim-flake8 ====================
 autocmd BufRead,BufNewFile *.py let python_highlight_all=1
 autocmd BufRead,BufNewFile *.py let python_highlight_space_errors=0
-
-
-" ============ Vim-cpp-enhanced-highlight ============
-let g:cpp_concepts_highlight = 1
-
-
-" ==================== delimitMate ====================
-let g:delimitMate_expand_cr = 1		
-let g:delimitMate_expand_space = 1		
-let g:delimitMate_smart_quotes = 1		
-let g:delimitMate_expand_inside_quotes = 0		
-let g:delimitMate_smart_matchpairs = '^\%(\w\|\$\)'		
-
-imap <expr> <CR> pumvisible() ? "\<c-y>" : "<Plug>delimitMateCR"
 
 
 " ==================== Lightline ====================
@@ -400,13 +434,3 @@ endfunction
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
 
-" ==================== NerdTree ====================
-" Open nerdtree in current dir, write our own custom function because
-" NerdTreeToggle just sucks and doesn't work for buffers
-noremap <Leader>n :NERDTreeToggle<cr>
-noremap <Leader>f :NERDTreeFind<cr>
-
-let NERDTreeShowHidden=1
-
-" ==================== Tagbar ====================
-nmap <F8> :TagbarToggle<CR>

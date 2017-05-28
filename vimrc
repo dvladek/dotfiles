@@ -29,10 +29,7 @@ Plug 'junegunn/goyo.vim'				" Markdown specific
 "
 " Plug 'tpope/vim-dispatch'
 " Plug 'jeaye/color_coded'
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
 " Plug 'fatih/molokai'
-" Plug 'garyburd/go-explorer'
 " autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
 " autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
 " autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
@@ -40,9 +37,11 @@ Plug 'junegunn/goyo.vim'				" Markdown specific
 
 call plug#end()
 
+"
+" Plug settings
+"
 set nocompatible                " be iMproved, required
 filetype off                    " required
-
 filetype plugin indent on       " required
 
 "
@@ -55,7 +54,7 @@ set showcmd                     " Show me what I'm typing
 set showmode                    " Show current mode.
 
 set noswapfile                  " Don't use swapfile
-set nobackup            		" Don't create annoying backup files
+set nobackup            	" Don't create annoying backup files
 set splitright                  " Split vertical windows right to the current windows
 set splitbelow                  " Split horizontal windows below to the current windows
 set encoding=utf-8              " Set default encoding to UTF-8
@@ -110,6 +109,7 @@ else
   let base16colorspace=256
   colorscheme base16-tomorrow-night
 endif
+
 
 " ----------------------------------------- "
 " Mappings			    					" 			    
@@ -168,21 +168,22 @@ au VimResized * :wincmd =
 " File Type settings 			    		"
 " ----------------------------------------- "
 
+au BufNewFile,BufRead *.cxx setlocal noet ts=4 sw=4 sts=4
+au BufNewFile,BufRead *.cpp setlocal noet ts=4 sw=4 sts=4
+au BufNewFile,BufRead *.hxx setlocal noet ts=4 sw=4 sts=4
+au BufNewFile,BufRead *.hpp setlocal noet ts=4 sw=4 sts=4
+
 au BufNewFile,BufRead *.go setlocal noet ts=4 sw=4 sts=4
 au BufNewFile,BufRead *.ino setlocal noet ts=4 sw=4 sts=4
-au BufNewFile,BufRead *.vim setlocal expandtab shiftwidth=4 tabstop=4
-au BufNewFile,BufRead *.txt setlocal noet ts=4 sw=4
-au BufNewFile,BufRead *.md setlocal noet ts=4 sw=4
+
 au BufNewFile,BufRead *.py setlocal noet ts=4 sw=4 sts=4
 
-au BufNewFile,BufRead *.cxx setlocal noet ts=2 sw=2 sts=2
-au BufNewFile,BufRead *.cpp setlocal noet ts=2 sw=2 sts=2
-au BufNewFile,BufRead *.hxx setlocal noet ts=2 sw=2 sts=2
-au BufNewFile,BufRead *.hpp setlocal noet ts=2 sw=2 sts=2
+au BufNewFile,BufRead *.vim setlocal expandtab ts=4 sw=4
+au BufNewFile,BufRead *.txt setlocal noet ts=4 sw=4
+au BufNewFile,BufRead *.md setlocal noet ts=4 sw=4
 
-
-autocmd FileType json setlocal expandtab shiftwidth=2 tabstop=2
-autocmd FileType ruby setlocal expandtab shiftwidth=2 tabstop=2
+autocmd FileType json setlocal expandtab ts=2 sw=2
+autocmd FileType ruby setlocal expandtab ts=2 sw=2
 
 augroup filetypedetect
   au BufNewFile,BufRead .tmux.conf*,tmux.conf* setf tmux
@@ -203,12 +204,11 @@ set wildignore+=*.sw?                            " Vim swap files
 set wildignore+=*.DS_Store                       " OSX bullshit
 set wildignore+=*.luac                           " Lua byte code
 set wildignore+=migrations                       " Django migrations
-set wildignore+=go/pkg                       	" Go static files
-set wildignore+=go/bin                       	" Go bin files
-set wildignore+=go/bin-vagrant               	" Go bin-vagrant files
+set wildignore+=go/pkg                       	 " Go static files
+set wildignore+=go/bin                       	 " Go bin files
+set wildignore+=go/bin-vagrant               	 " Go bin-vagrant files
 set wildignore+=*.pyc                            " Python byte code
 set wildignore+=*.orig                           " Merge resolution files
-
 
 
 " ----------------------------------------- "
@@ -252,7 +252,6 @@ let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 
 
 " ==================== Syntastic ====================
-
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -308,129 +307,5 @@ au FileType go nmap <Leader>l :GoLint<CR>
 autocmd BufRead,BufNewFile *.py let python_highlight_all=1
 autocmd BufRead,BufNewFile *.py let python_highlight_space_errors=0
 
-
-" ==================== Lightline ====================
-"
-let g:lightline = {
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste'],
-      \             [ 'filename', 'modified' ],
-      \             [ 'go'] ],
-      \   'right': [ [ 'lineinfo' ], 
-      \              [ 'percent' ], 
-      \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
-      \ },
-      \ 'inactive': {
-      \   'left': [ [ 'go'] ],
-      \ },
-      \ 'component_function': {
-      \   'lineinfo': 'LightLineInfo',
-      \   'percent': 'LightLinePercent',
-      \   'modified': 'LightLineModified',
-      \   'filename': 'LightLineFilename',
-      \   'go': 'LightLineGo',
-      \   'fileformat': 'LightLineFileformat',
-      \   'filetype': 'LightLineFiletype',
-      \   'fileencoding': 'LightLineFileencoding',
-      \   'mode': 'LightLineMode',
-      \   'fugitive': 'LightLineFugitive',
-      \   'ctrlpmark': 'CtrlPMark',
-      \ },
-      \ }
-
-function! LightLineModified()
-  if &filetype == "help"
-    return ""
-  elseif &modified
-    return "+"
-  elseif &modifiable
-    return ""
-  else
-    return ""
-  endif
-endfunction
-
-function! LightLineFileformat()
-  return winwidth(0) > 70 ? &fileformat : ''
-endfunction
-
-function! LightLineFiletype()
-  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
-endfunction
-
-function! LightLineFileencoding()
-  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
-endfunction
-
-function! LightLineInfo()
-  return winwidth(0) > 60 ? printf("%3d:%-2d", line('.'), col('.')) : ''
-endfunction
-
-function! LightLinePercent()
-  return &ft =~? 'vimfiler' ? '' : (100 * line('.') / line('$')) . '%'
-endfunction
-
-function! LightLineFugitive()
-  return exists('*fugitive#head') ? fugitive#head() : ''
-endfunction
-
-function! LightLineGo()
-  " return ''
-  return exists('*go#jobcontrol#Statusline') ? go#jobcontrol#Statusline() : ''
-endfunction
-
-function! LightLineMode()
-  let fname = expand('%:t')
-  return fname == 'ControlP' ? 'CtrlP' :
-        \ &ft == 'vimfiler' ? 'VimFiler' :
-        \ winwidth(0) > 60 ? lightline#mode() : ''
-endfunction
-
-function! LightLineFilename()
-  let fname = expand('%:t')
-  if mode() == 't'
-    return ''
-  endif
-
-  return fname == 'ControlP' ? g:lightline.ctrlp_item :
-        \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
-        \ ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
-        \ ('' != fname ? fname : '[No Name]')
-endfunction
-
-function! LightLineReadonly()
-  return &ft !~? 'help' && &readonly ? 'RO' : ''
-endfunction
-
-function! CtrlPMark()
-  if expand('%:t') =~ 'ControlP'
-    call lightline#link('iR'[g:lightline.ctrlp_regex])
-    return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
-          \ , g:lightline.ctrlp_next], 0)
-  else
-    return ''
-  endif
-endfunction
-
-let g:ctrlp_status_func = {
-      \ 'main': 'CtrlPStatusFunc_1',
-      \ 'prog': 'CtrlPStatusFunc_2',
-      \ }
-
-function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
-  let g:lightline.ctrlp_regex = a:regex
-  let g:lightline.ctrlp_prev = a:prev
-  let g:lightline.ctrlp_item = a:item
-  let g:lightline.ctrlp_next = a:next
-  return lightline#statusline(0)
-endfunction
-
-function! CtrlPStatusFunc_2(str)
-  return lightline#statusline(0)
-endfunction
-
-
 " Trigger a highlight in the appropriate direction when pressing these keys:
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
-
-

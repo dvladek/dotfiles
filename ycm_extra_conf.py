@@ -15,6 +15,7 @@ BASE_FLAGS = [
         '-ferror-limit=10000',
         '-DNDEBUG',
         '-std=c++11',
+		'-stdlib=libc++'
         '-xc++',
         '-I/usr/lib/',
         '-I/usr/include/'
@@ -29,12 +30,21 @@ SOURCE_EXTENSIONS = [
         '.mm'
         ]
 
+SOURCE_DIRECTORIES = [
+		'src',
+		'lib'
+		]
+
 HEADER_EXTENSIONS = [
         '.h',
         '.hxx',
         '.hpp',
         '.hh'
         ]
+
+HEADER_DIRECTORIES = [
+		'include'
+		]
 
 def IsHeaderFile(filename):
     extension = os.path.splitext(filename)[1]
@@ -49,6 +59,14 @@ def GetCompilationInfoForFile(database, filename):
                 compilation_info = database.GetCompilationInfoForFile(replacement_file)
                 if compilation_info.compiler_flags_:
                     return compilation_info
+			
+            for header_dir in HEADER_DIRECTORIES:
+                for source_dir in SOURCE_DIRECTORIES:
+                    src_file = replacement_file.replace(header_dir, source_dir)
+                    if os.path.exists(src_file):
+                        compilation_info = database.GetCompilationInfoForFile(src_file)
+                        if compilation_info.compiler_flags_:
+                            return compilation_info
         return None
     return database.GetCompilationInfoForFile(filename)
 

@@ -24,13 +24,22 @@ bindkey -v
 alias :sp='test -n "$TMUX" && tmux split-window'
 alias :vs='test -n "$TMUX" && tmux split-window -h'
 alias cd..='cd ..'
-alias grep='grep --color=auto' 
+#alias grep='grep --color=auto' 
 alias h=history
-alias ls='ls --color=auto'                                                  
-alias ll='ls -lha --color=auto'
+#alias ls='ls --color=auto'
+#alias ll='ls -lha --color=auto'
 alias t=tmux
 alias v=vim
 
+if [[ `uname` == 'Linux' ]] then
+  alias grep='grep --color=auto'
+  alias ls='ls --color=auto'
+  alias ll='ls -lha --color=auto'
+else
+  alias grep='grep -G'
+  alias ls='ls -G'
+  alias ll='ls -Glha'
+fi
 
 #-----------------------------
 # Auto completion

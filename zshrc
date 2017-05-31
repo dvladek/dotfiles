@@ -24,6 +24,7 @@ bindkey -v
 alias :sp='test -n "$TMUX" && tmux split-window'
 alias :vs='test -n "$TMUX" && tmux split-window -h'
 alias cd..='cd ..'
+alias ....='cd ../..'
 #alias grep='grep --color=auto' 
 alias h=history
 #alias ls='ls --color=auto'
@@ -116,7 +117,8 @@ setopt PROMPT_SUBST
 
 function () {
   if [[ -n "$TMUX"  ]]; then
-    local LVL=$(($SHLVL - 1))
+    #local LVL=$(($SHLVL - 1))
+    local LVL=1
   else
     local LVL=$SHLVL
   fi
@@ -211,8 +213,8 @@ add-zsh-hook precmd vcs_info
 setopt autocd 		    # .. is shortcut for cd .. (etc)
 setopt autoparamslash       # tab completing directory appends a slash
 setopt autopushd            # cd automatically pushes old dir onto dir stack
-setopt correct              # command auto-correction
-setopt correctall           # argument auto-correction
+#setopt correct              # command auto-correction
+#setopt correctall           # argument auto-correction
 setopt histignorealldups    # filter duplicates from history
 setopt histignorespace      # don't record commands starting with a space
 setopt histverify 	    # confirm history expansion (!$, !!, !foo)
@@ -220,4 +222,49 @@ setopt interactivecomments  # allow comments, even in interactive shells
 setopt pushdignoredups      # don't push multiple copies of same dir onto stack
 setopt pushdsilent          # don't print dir stack after pushing/popping
 setopt sharehistory 	    # share history across shells
+
+
+#-----------------------------
+# tmux configuration
+#-----------------------------
+function tmux() {
+  emulate -L zsh
+
+  # Make sure even pre-existing tmux sessions use the latest SSH_AUTH_SOCK.
+  # (Inspired by: https://gist.github.com/lann/6771001)
+  local SOCK_SYMLINK=~/.ssh/ssh_auth_sock
+  if [ -r "$SSH_AUTH_SOCK" -a ! -L "$SSH_AUTH_SOCK" ]; then
+    ln -sf "$SSH_AUTH_SOCK" $SOCK_SYMLINK
+  fi
+
+  if [[ -n "$@" ]]; then
+    env SSH_AUTH_SOCK=$SOCK_SYMLINK tmux "$@"
+    return
+  fi
+
+  # Check for .tmux file (poor man's Tmuxinator).
+  if [ -x .tmux ]; then
+    # Prompt the first time we see a given .tmux file before running it.
+    local DIGEST="$(openssl sha -sha512 .tmux)"
+    if ! grep -q "$DIGEST" ~/..tmux.digests 2> /dev/null; then
+      cat .tmux
+      read -k 1 -r \
+        'REPLY?Trust (and run) this .tmux file? (t = trust, otherwise = skip) '
+      echo
+      if [[ $REPLY =~ ^[Tt]$ ]]; then
+        echo "$DIGEST" >> ~/..tmux.digests
+        eval ./.tmux
+        return
+      fi
+    else
+      eval ./.tmux
+      return
+    fi
+  fi
+
+  # Attach to existing session, or create one, based on current directory.
+  SESSION_NAME=$(basename "$(pwd)")
+  env SSH_AUTH_SOCK=$SOCK_SYMLINK tmux new -A -s "$SESSION_NAME"
+}
+
 

@@ -117,8 +117,8 @@ setopt PROMPT_SUBST
 
 function () {
   if [[ -n "$TMUX"  ]]; then
-    #local LVL=$(($SHLVL - 1))
-    local LVL=1
+    local LVL=$(($SHLVL - 1))
+    #local LVL=1
   else
     local LVL=$SHLVL
   fi
@@ -134,7 +134,7 @@ function () {
     # a find pattern to jump back in tmux.
     local NBSP=' '
     #export PS1="%F{green}${SSH_TTY:+%n@%m}%f%B${SSH_TTY:+:}%b%F{blue}%1~%F{yellow}%B%(1j.*.)%(?..!)%b%f%F{red}%B${SUFFIX}%b%f${NBSP}"
-    export PS1="%F{green}${SSH_TTY:+%n@%m}%f%B${SSH_TTY:+:}%b%F{08}%n%f%F{03}%B%(1j.*.)%(?..!)%b%f${SUFFIX}${NBSP}"
+    export PS1="%F{green}${SSH_TTY:+%n@%m}%f%B${SSH_TTY:+:}%b%F{08}%n%f%F{03}%B%(1j.*.)%(?..!)%b%f${SUFFIX}${NBSP}%{$reset_color%}"
     export ZLE_RPROMPT_INDENT=0
   else
     # Don't bother with ZLE_RPROMPT_INDENT here, because it ends up eating the

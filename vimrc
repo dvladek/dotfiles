@@ -86,6 +86,8 @@ set synmaxcol=300
 set re=1
 set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 
+set t_ut=			" tmux hack
+
 if has("gui_macvim")
 " No toolbars, menu or scrollbars in the GUI
   set guifont=Source\ Code\ Pro\ Light:h12

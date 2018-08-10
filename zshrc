@@ -25,6 +25,7 @@ alias :sp='test -n "$TMUX" && tmux split-window'
 alias :vs='test -n "$TMUX" && tmux split-window -h'
 alias cd..='cd ..'
 alias ....='cd ../..'
+alias dot='basename "$PWD"'
 #alias grep='grep --color=auto' 
 alias h=history
 #alias ls='ls --color=auto'
@@ -245,7 +246,7 @@ function tmux() {
   # Check for .tmux file (poor man's Tmuxinator).
   if [ -x .tmux ]; then
     # Prompt the first time we see a given .tmux file before running it.
-    local DIGEST="$(openssl sha -sha512 .tmux)"
+    local DIGEST="$(openssl sha1 -sha512 .tmux)"
     if ! grep -q "$DIGEST" ~/..tmux.digests 2> /dev/null; then
       cat .tmux
       read -k 1 -r \
@@ -254,7 +255,7 @@ function tmux() {
       if [[ $REPLY =~ ^[Tt]$ ]]; then
         echo "$DIGEST" >> ~/..tmux.digests
         eval ./.tmux
-        return
+      return
       fi
     else
       eval ./.tmux

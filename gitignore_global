@@ -10,6 +10,8 @@ Icon?
 ehthumbs.db
 Thumbs.db
 
+compile_commands.json
+
 .coverage
 __pycache__/
 *.py[cod]

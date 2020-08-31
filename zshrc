@@ -1,7 +1,7 @@
 #-----------------------------
 # Prepare base16 colors and basic exports
 #-----------------------------
-source $HOME/.profile
+source $HOME/.zprofile
 
 
 #-----------------------------
@@ -32,6 +32,7 @@ alias h=history
 #alias ll='ls -lha --color=auto'
 alias t=tmux
 alias v=vim
+alias please='sudo $(fc -ln -1)'
 
 if [[ `uname` == 'Linux' ]] then
   alias grep='grep --color=auto'
@@ -49,7 +50,7 @@ fi
 zstyle :compinstall filename '/home/dvladek/.zshrc'
 
 autoload -Uz compinit
-compinit
+compinit -u
 
 # Make completion:
 # - Case-insensitive.
@@ -58,7 +59,7 @@ compinit
 zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 
 # Colorize completions using default `ls` colors.
-#zstyle ':completion:*' list-colors ''
+zstyle ':completion:*' list-colors ''
 
 # Exceptions to auto-correction
 alias bundle='nocorrect bundle'
@@ -71,6 +72,9 @@ alias sudo='nocorrect sudo'
 #-----------------------------
 # Prompt
 #-----------------------------
+autoload -U colors
+colors
+
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git hg
 zstyle ':vcs_info:*' check-for-changes true
@@ -269,3 +273,4 @@ function tmux() {
 }
 
 
+export PATH="/usr/local/sbin:$PATH"

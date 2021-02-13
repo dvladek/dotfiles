@@ -3,20 +3,28 @@
 " ----------------------------------------- "
 call plug#begin('~/.vim/plugged')
 
+Plug 'mhinz/vim-startify'                       " Start screen.
+
 Plug 'scrooloose/nerdtree'                      " Navigation Tree.
 Plug 'mbbill/undotree'                          " History Tree.
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'               " Color parsing Tree.
 Plug 'majutsushi/tagbar'                        " Tags for code.
 
-Plug 'itchyny/lightline.vim'                    " Statusline.
+Plug 'nvim-lua/plenary.nvim'                    " Telescope/express  prerequisite.
+
+Plug 'kyazdani42/nvim-web-devicons'             " File icons.
+Plug 'tjdevries/express_line.nvim'              " Statusline.
 
 Plug 'chriskempson/base16-vim'                  " Color schema.
 Plug 'gruvbox-community/gruvbox'                " Color schema.
 
 Plug 'nvim-lua/popup.nvim'                      " Telescope prerequisite.
-Plug 'nvim-lua/plenary.nvim'                    " Telescope prerequisite.
 Plug 'nvim-telescope/telescope.nvim'            " Project file system.
+Plug 'nvim-telescope/telescope-github.nvim'     " Telescope plugin.
+Plug 'nvim-telescope/telescope-fzy-native.nvim' " Telescope plugin.
+Plug 'nvim-telescope/telescope-fzf-writer.nvim' " Telescope plugin.
+Plug 'nvim-telescope/telescope-symbols.nvim'    " Telescope plugin.
 
 Plug 'tpope/vim-fugitive'                       " Git file system.
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -32,6 +40,10 @@ Plug 'ap/vim-css-color'                         " CSS specific.
 
 Plug 'Raimondi/delimitMate'                     " Automatic () {} []
 Plug 'tpope/vim-surround'                       " Better surroundings ''
+
+Plug 'brooth/far.vim'                           " Find and replace.
+
+" Plug 'kyazdani42/nvim-tree.lua'                 " Alternative navigation tree.
 
 call plug#end()
 
@@ -91,6 +103,7 @@ set laststatus=2                                " Lightline configuration.
 syntax enable
 let base16colorspace=256
 colorscheme base16-tomorrow-night
+"colorscheme gruvbox
 
 " ----------------------------------------- "
 " Mappings                                  "

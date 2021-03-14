@@ -15,11 +15,5 @@ nnoremap <leader>csh :lua vim.lsp.buf.signature_help()<CR>
 nnoremap <leader>cr :lua vim.lsp.buf.references()<CR>
 nnoremap <leader>crn :lua vim.lsp.buf.rename()<CR>
 nnoremap <leader>ch :lua vim.lsp.buf.hover()<CR>
-nnoremap <leader>ca :lua vim.lsp.buf.code_action()<CR>
-nnoremap <leader>csd :lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
 
 let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
-
-lua require'lspconfig'.clangd.setup{ on_attach=require'completion'.on_attach }
-lua require'lspconfig'.pyls.setup{ on_attach=require'completion'.on_attach }
-lua require'lspconfig'.cmake.setup{ on_attach=require'completion'.on_attach }

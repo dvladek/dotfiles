@@ -23,6 +23,11 @@ Plug 'onsails/lspkind-nvim'                     " LSP icons.
 Plug 'chriskempson/base16-vim'                  " Color schema.
 Plug 'gruvbox-community/gruvbox'                " Color schema.
 
+" In preparation forimplementing my own color schema.
+Plug 'tjdevries/colorbuddy.vim'
+Plug 'norcalli/nvim-colorizer.lua'
+Plug 'norcalli/nvim-terminal.lua'
+
 Plug 'nvim-lua/popup.nvim'                      " Telescope prerequisite.
 Plug 'tami5/sql.nvim'                           " Frecency prerequisite.
 Plug 'nvim-telescope/telescope.nvim'            " Project file system.

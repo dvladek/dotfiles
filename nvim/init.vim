@@ -5,7 +5,6 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'mhinz/vim-startify'                       " Start screen.
 
-Plug 'romgrk/barbar.nvim'                       " Navigation Bar.
 Plug 'scrooloose/nerdtree'                      " Navigation Tree.
 Plug 'mbbill/undotree'                          " History Tree.
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -25,6 +24,7 @@ Plug 'gruvbox-community/gruvbox'                " Color schema.
 
 " In preparation forimplementing my own color schema.
 Plug 'tjdevries/colorbuddy.vim'
+Plug 'tjdevries/gruvbuddy.nvim'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'norcalli/nvim-terminal.lua'
 
@@ -56,9 +56,6 @@ Plug 'Raimondi/delimitMate'                     " Automatic () {} []
 Plug 'tpope/vim-surround'                       " Better surroundings ''
 
 Plug 'tjdevries/command_and_conquer.nvim'       " Run commands
-" Plug 'kyazdani42/nvim-tree.lua'               " Alternative navigation tree.
-" Plug 'sakshamgupta05/vim-todo-highlight'        " TOOD and FIXME.
-" Plug 'brooth/far.vim'                           " Find and replace.
 
 call plug#end()
 
@@ -119,9 +116,10 @@ set wildignore+=*__pycache__*,*.o,*~,*.pyc,*pycache*,*/.cache/*,*DS_Store*
 " Syntax                                    "
 " ----------------------------------------- "
 syntax enable
-let base16colorspace=256
-colorscheme base16-tomorrow-night
+" let base16colorspace=256
+" colorscheme base16-tomorrow-night
 "colorscheme gruvbox
+lua require('colorbuddy').colorscheme('gruvbuddy')
 
 
 " ----------------------------------------- "

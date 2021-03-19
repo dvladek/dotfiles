@@ -15,5 +15,6 @@ nnoremap <leader>csh :lua vim.lsp.buf.signature_help()<CR>
 nnoremap <leader>cr :lua vim.lsp.buf.references()<CR>
 nnoremap <leader>crn :lua vim.lsp.buf.rename()<CR>
 nnoremap <leader>ch :lua vim.lsp.buf.hover()<CR>
+nnoremap <leader>cf :lua vim.lsp.buf.formatting()<CR>
 
 let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']

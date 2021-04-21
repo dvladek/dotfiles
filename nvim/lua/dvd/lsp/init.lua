@@ -63,6 +63,11 @@ lspconfig.cmake.setup({
     on_attach = custom_attach,
 })
 
+lspconfig.texlab.setup({
+    on_init = custom_init,
+    on_attach = custom_attach,
+})
+
 --[[
 local sumneko_root_path = '/Users/dvladek/Development/code/sumneko/lua-language-server'
 local sunmeko_binary = sumneko_root_path .. '/bin/macOS/lua-language-server'

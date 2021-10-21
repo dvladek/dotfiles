@@ -1,4 +1,4 @@
-local nvim_status  = require('lsp-status')
+local nvim_status  = require 'lsp-status'
 
 local status = {}
 

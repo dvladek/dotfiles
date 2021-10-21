@@ -34,22 +34,20 @@ end
 telescope_mapper('<C-p>', 'telescope.builtin', 'git_files')
 telescope_mapper('<C-l>', 'telescope.builtin', 'file_browser')
 
-
-telescope_mapper('<leader>pg', 'dvd.telescope', 'grep_search')
-telescope_mapper('<leader>ps', 'dvd.telescope', 'live_grep')
+telescope_mapper('<leader>ps', 'dvd.telescope', 'grep_search')
 telescope_mapper('<leader>pb', 'dvd.telescope', 'buffers')
-telescope_mapper('<leader>fs', 'dvd.telescope', 'quick_search')
+telescope_mapper('<leader>qs', 'dvd.telescope', 'quick_search')
 
-telescope_mapper('<leader>g', 'dvd.telescope', 'git_branches')
+telescope_mapper('<leader>gb', 'dvd.telescope', 'git_branches')
+telescope_mapper('<leader>gwl', 'dvd.telescope', 'worktree_list')
+telescope_mapper('<leader>gwc', 'dvd.telescope', 'worktree_create')
 
 telescope_mapper('<leader>ed', 'dvd.telescope', 'edit_dotfiles')
-
-telescope_mapper('<leader>vh', 'dvd.telescope', 'help_tags')
-telescope_mapper('<leader>vw', 'telescope.builtin', 'symbols')
 
 telescope_mapper('<leader>a', 'dvd.telescope', 'lsp_code_actions')
 telescope_mapper('<leader>s', 'dvd.telescope', 'lsp_document_diagnostics')
 
--- telescope_mapper('<C-f>', 'dvd.telescope', 'fd')
+telescope_mapper('<leader>vh', 'dvd.telescope', 'help_tags')
+telescope_mapper('<leader>vw', 'telescope.builtin', 'symbols')
 
 return telescope_mapper

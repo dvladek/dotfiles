@@ -8,10 +8,9 @@ Plug 'mhinz/vim-startify'                       " Start screen.
 Plug 'scrooloose/nerdtree'                      " Navigation Tree.
 Plug 'mbbill/undotree'                          " History Tree.
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'nvim-treesitter/completion-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'               " Color parsing Tree.
-Plug 'majutsushi/tagbar'                        " Tags for code.
 
+Plug 'nvim-lua/popup.nvim'                      " Telescope prerequisite.
 Plug 'nvim-lua/plenary.nvim'                    " Telescope/express prerequisite.
 
 Plug 'ryanoasis/vim-devicons'                   " Pretty icons.
@@ -19,54 +18,55 @@ Plug 'kyazdani42/nvim-web-devicons'             " File icons.
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'tjdevries/express_line.nvim'              " Statusline.
 
-
 Plug 'chriskempson/base16-vim'                  " Color schema.
 Plug 'gruvbox-community/gruvbox'                " Color schema.
 
-" In preparation forimplementing my own color schema.
+" In preparation for implementing my own color schema.
 Plug 'tjdevries/colorbuddy.vim'
 Plug 'tjdevries/gruvbuddy.nvim'
 Plug 'norcalli/nvim-colorizer.lua'              " (testing).
 Plug 'norcalli/nvim-terminal.lua'               " (testing).
 
-Plug 'nvim-lua/popup.nvim'                      " Telescope prerequisite.
 Plug 'tami5/sql.nvim'                           " Frecency prerequisite.
 Plug 'nvim-telescope/telescope.nvim'            " Project file system.
-Plug 'nvim-telescope/telescope-fzy-native.nvim' " Telescope plugin.
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' } " Telescope plugin.
 Plug 'nvim-telescope/telescope-fzf-writer.nvim' " Telescope plugin.
 Plug 'nvim-telescope/telescope-frecency.nvim'   " Telescope plugin.
 Plug 'nvim-telescope/telescope-github.nvim'     " Telescope plugin.
 Plug 'nvim-telescope/telescope-symbols.nvim'    " Telescope plugin.
 
 Plug 'tpope/vim-fugitive'                       " Git file system.
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'                         " Fuzzy file system.
-Plug 'stsewd/fzf-checkout.vim'                  " Checkout file system.
+Plug 'ThePrimeagen/git-worktree.nvim'           " Git worktree.
 
 Plug 'neovim/nvim-lspconfig'                    " Language server protocol.
 Plug 'anott03/nvim-lspinstall'                  " Tools for LSP.
 Plug 'wbthomason/lsp-status.nvim'               " Tools for LSP.
-Plug 'nvim-lua/completion-nvim'                 " Better completion for LSP.
 Plug 'glepnir/lspsaga.nvim'                     " Better UI for LSP (testing).
 Plug 'onsails/lspkind-nvim'                     " LSP icons.
+Plug 'hrsh7th/cmp-nvim-lsp'                     " nvim-cmp source for nvim LSP.
+Plug 'hrsh7th/cmp-buffer'                       " nvim-cmp source for buffer w.
+Plug 'hrsh7th/nvim-cmp'                         " Completion engine plugin LSP.
 
-Plug 'octol/vim-cpp-enhanced-highlight'         " C++ specific.
-Plug 'rhysd/vim-clang-format'                   " C++ specific (testing).
-Plug 'mfussenegger/nvim-dap'                    " C++ debug specific (testing).
-Plug 'mfussenegger/nvim-dap-python'             " C++ debug specific (testing).
-Plug 'theHamsta/nvim-dap-virtual-text'          " C++ debug specific (testing).
-Plug 'nvim-telescope/telescope-dap.nvim'        " (testing).
+
+" Snippets
+Plug 'L3MON4D3/LuaSnip'                         " Snippets
+Plug 'rafamadriz/friendly-snippets'             " Snippets
+
+" Plug 'octol/vim-cpp-enhanced-highlight'         " C++ specific.
+" Plug 'rhysd/vim-clang-format'                   " C++ specific (testing).
+" Plug 'mfussenegger/nvim-dap'                    " C++ debug specific (testing).
+" Plug 'mfussenegger/nvim-dap-python'             " C++ debug specific (testing).
+" Plug 'theHamsta/nvim-dap-virtual-text'          " C++ debug specific (testing).
+" Plug 'nvim-telescope/telescope-dap.nvim'        " (testing).
 
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' } " Go specific.
-
-"Plug 'lervag/vimtex'                            " LaTex specific.
 
 Plug 'junegunn/goyo.vim'                        " Markdown specific.
 
 Plug 'ap/vim-css-color'                         " CSS specific.
 
-Plug 'Raimondi/delimitMate'                     " Automatic () {} []
-Plug 'tpope/vim-surround'                       " Better surroundings ''
+" Plug 'Raimondi/delimitMate'                     " Automatic () {} []
+" Plug 'tpope/vim-surround'                       " Better surroundings ''
 Plug 'tweekmonster/spellrotate.vim'             " Text suggestions (testing).
 
 Plug 'tjdevries/command_and_conquer.nvim'       " Run commands (testing).
@@ -75,8 +75,7 @@ Plug 'norcalli/snippets.nvim'                   " Snippets
 
 call plug#end()
 
-
-lua require'nvim-treesitter.configs'.setup { highlight = { enable = true } }
+lua require'nvim-treesitter.configs'.setup { indent = { enable = true }, highlight = { enable = true }, incremental_selection = { enable = true }, textobjects = { enable = true }}
 
 
 " ----------------------------------------- "
@@ -126,7 +125,15 @@ set laststatus=2                                " Lightline configuration.
 " ----------------------------------------- "
 
 " Ignore compiled files
-set wildignore+=*__pycache__*,*.o,*~,*.pyc,*pycache*,*/.cache/*,*DS_Store*
+set wildignore+=*~,
+set wildignore+=*.o,
+set wildignore+=*.pyc,
+set wildignore+=**__pycache__/*
+set wildignore+=**/pycache/*,
+set wildignore+=**/.cache/*,
+set wildignore+=**/node_modules/*
+set wildignore+=**/.git/*
+set wildignore+=**/DS_Store/*
 
 " Wrap tex files
 augroup WrapLineInTeXFile
@@ -186,6 +193,7 @@ endfun
 
 augroup DVD_CONFIG
     autocmd!
+    autocmd BufWritePre c,cc,cpp,cxx,h,hh,hpp,hxx,ipp Neoformat
     autocmd BufWritePre * :call TrimWhitespace()
 augroup END
 

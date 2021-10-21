@@ -5,64 +5,97 @@ end
 local should_reload = true
 local reloader = function()
     if should_reload then
-        RELOAD('plenary')
-        RELOAD('popup')
-        RELOAD('telescope')
+        RELOAD 'plenary'
+        RELOAD 'popup'
+        RELOAD 'telescope'
     end
 end
 
 reloader()
 
-local actions = require('telescope.actions')
-local sorters = require('telescope.sorters')
-local themes = require('telescope.themes')
+local actions = require 'telescope.actions'
+local action_state = require 'telescope.actions.state'
+local action_mt = require 'telescope.actions.mt'
+local finders = require 'telescope.finders'
+local pickers = require 'telescope.pickers'
+local previewers = require 'telescope.previewers'
+local sorters = require 'telescope.sorters'
+local themes = require 'telescope.themes'
+
+local _ = pcall(require, 'nvim-nonicons')
 
 require('telescope').setup {
     defaults = {
-        prompt_prefix = ' >',
+        prompt_prefix = '❯ ',
+        selection_cared = '❯ ',
 
         winblend = 0,
-        preview_cutoff = 120,
 
         layout_strategy = 'horizontal',
-        selection_strategy = "reset",
-        sorting_strategy = "descending",
-        scroll_strategy = "cycle",
-        prompt_position = "bottom",
+        layout_config = {
+            width = 0.95,
+            height = 0.85,
+            prompt_position = 'bottom',
+
+            horizontal = {
+                preview_width = function(_, cols, _)
+                    if cols > 200 then
+                        return math.floor(cols * 0.4)
+                    else
+                        return math.floor(cols * 0.6)
+                    end
+                end,
+            },
+
+            vertical = {
+                width = 0.9,
+                height = 0.95,
+                preview_height = 0.5,
+            },
+
+            flex = {
+                horizontal = {
+                    preview_width = 0.9,
+                },
+            },
+        },
+
+        selection_strategy = 'reset',
+        sorting_strategy = 'descending',
+        scroll_strategy = 'cycle',
         color_devicons = true,
 
-        file_sorter = sorters.get_fzy_sorter,
+        file_previewer   = previewers.vim_buffer_cat.new,
+        grep_previewer   = previewers.vim_buffer_vimgrep.new,
+        qflist_previewer = previewers.vim_buffer_qflist.new,
 
-        file_previewer   = require('telescope.previewers').vim_buffer_cat.new,
-        grep_previewer   = require('telescope.previewers').vim_buffer_vimgrep.new,
-        qflist_previewer = require('telescope.previewers').vim_buffer_qflist.new,
-
-        file_ignore_patterns = { '.cache/*' },
+        borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
 
         extensions = {
             fzy_native = {
-                override_generic_sorter = false,
+                override_generic_sorter = true,
                 override_file_sorter = true,
             },
 
             fzf_writer = {
                 use_highlighter = false,
-                minimum_grep_characters = 4,
+                minimum_grep_characters = 6,
             }
         },
-
-        mappings = {
-            i = {
-                ["<C-x>"] = false,
-                ["<C-s>"] = actions.select_vertical,
-                ["<C-q>"] = actions.send_to_qflist,
-            },
-        }
     }
 }
 
-pcall(require('telescope').load_extension, 'fzy_native')
-pcall(require('telescope').load_extension, 'gh')
+pcall(require("telescope").load_extension, "dap")
+pcall(require("telescope").load_extension, "notify")
+pcall(require('telescope').load_extension, 'fzf')
+
+if vim.fn.executable 'gh' == 1 then
+    pcall(require('telescope').load_extension, 'gh')
+    pcall(require('telescope').load_extension, 'octo')
+end
+
+pcall(require('telescope').load_extension, 'git_worktree')
+
 
 local M = {}
 
@@ -75,17 +108,8 @@ end
 
 function M.grep_search()
     require('telescope.builtin').grep_string {
-        shorten_path = true,
+        path_display = "shorten",
         search = vim.fn.input("Grep String > "),
-    }
-end
-
-
-function M.live_grep()
-    require('telescope').extensions.fzf_writer.staged_grep {
-        shorten_path = true,
-        previewer = false,
-        fzf_separator = "|>",
     }
 end
 
@@ -100,9 +124,7 @@ function M.quick_search()
         winblend = 10,
         border = true,
         previewer = false,
-        shorten_path = false,
-
-    -- layout_strategy = 'current_buffer',
+        path_display = false,
     }
 
     require('telescope.builtin').current_buffer_fuzzy_find(opts)
@@ -124,7 +146,7 @@ end
 function M.edit_dotfiles()
     require('telescope.builtin').find_files {
         prompt_title = "< VimRC >",
-        cwd = "$HOME/Development/code/dvladek/dotfiles/",
+        cwd = "$DOTS/",
     }
 end
 
@@ -140,8 +162,6 @@ function M.lsp_code_actions()
     local opts = themes.get_dropdown {
         winblend = 10,
         border = true,
-        previewer = false,
-        shorten_path = false,
     }
 
     require('telescope.builtin').lsp_code_actions(opts)
@@ -150,6 +170,7 @@ end
 
 function M.lsp_document_diagnostics()
     local opts = themes.get_dropdown {
+        winblend = 10,
         border = true,
     }
 
@@ -157,11 +178,13 @@ function M.lsp_document_diagnostics()
 end
 
 
-function M.fd()
-  require('telescope.builtin').fd()
+function M.worktree_list()
+    require('telescope').extensions.git_worktree.git_worktrees()
 end
 
 
-
+function M.worktree_create()
+    require('telescope').extensions.git_worktree.create_git_worktree()
+end
 
 return M

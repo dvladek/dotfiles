@@ -1,22 +1,125 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Path to your oh-my-zsh installation.
+export ZSH=$HOME/.oh-my-zsh
+export CONF=$HOME/.config
+export DOTS=$HOME/Development/code/dvladek/dotfiles
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in $ZSH/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+# zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+
+# Uncomment the following line to change how often to auto-update (in days).
+# zstyle ':omz:update' frequency 13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# You can also set it to another string to have that shown instead of the default red dots.
+# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(
+  git
+  node
+  pip
+  pipenv
+  zsh-autosuggestions
+  colorize
+  colored-man-pages)
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
 #-----------------------------
 # Prepare base16 colors and basic exports
 #-----------------------------
-source $HOME/.zprofile
-
-
-#-----------------------------
-# History
-#-----------------------------
-HISTFILE=$HOME/.history
-HISTSIZE=100000
-SAVEHIST=$HISTSIZE
-
-
-#-----------------------------
-# Key bindings
-#-----------------------------
-bindkey -v
-bindkey '^R' history-incremental-search-backward
+source $HOME/.zsh_profile
 
 #-----------------------------
 # Alias
@@ -26,251 +129,13 @@ alias :vs='test -n "$TMUX" && tmux split-window -h'
 alias cd..='cd ..'
 alias ....='cd ../..'
 alias dot='basename "$PWD"'
-#alias grep='grep --color=auto' 
+alias ll='ls -lha'
 alias h=history
-#alias ls='ls --color=auto'
-#alias ll='ls -lha --color=auto'
 alias t=tmux
-alias v=vim
+alias v=nvim
+alias vim=nvim
+alias vi=nvim
 alias please='sudo $(fc -ln -1)'
 
-if [[ `uname` == 'Linux' ]] then
-  alias grep='grep --color=auto'
-  alias ls='ls --color=auto'
-  alias ll='ls -lha --color=auto'
-else
-  alias grep='grep -G'
-  alias ls='ls -G'
-  alias ll='ls -Glha'
-fi
-
-#-----------------------------
-# Auto completion
-#-----------------------------
-zstyle :compinstall filename '/home/dvladek/.zshrc'
-
-autoload -Uz compinit
-compinit -u
-
-# Make completion:
-# - Case-insensitive.
-# - Accept abbreviations after . or _ or - (ie. f.b -> foo.bar).
-# - Substring complete (ie. bar -> foobar).
-zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-
-# Colorize completions using default `ls` colors.
-zstyle ':completion:*' list-colors ''
-
-# Exceptions to auto-correction
-alias bundle='nocorrect bundle'
-alias man='nocorrect man'
-alias mkdir='nocorrect mkdir'
-alias mv='nocorrect mv'
-alias sudo='nocorrect sudo'
-
-
-#-----------------------------
-# Prompt
-#-----------------------------
-autoload -U colors
-colors
-
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' enable git hg
-zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:*' stagedstr "%F{green}•%f" # default 'S'
-zstyle ':vcs_info:*' unstagedstr "%F{red}•%f" # default 'U'
-zstyle ':vcs_info:*' use-simple true
-zstyle ':vcs_info:git+set-message:*' hooks git-untracked
-zstyle ':vcs_info:git*:*' formats '[%b%m%c%u] ' # default ' (%s)-[%b]%c%u-'
-zstyle ':vcs_info:git*:*' actionformats '[%b|%a%m%c%u] ' # default ' (%s)-[%b|%a]%c%u-'
-zstyle ':vcs_info:hg*:*' formats '[%m%b] '
-zstyle ':vcs_info:hg*:*' actionformats '[%b|%a%m] '
-zstyle ':vcs_info:hg*:*' branchformat '%b'
-zstyle ':vcs_info:hg*:*' get-bookmarks true
-zstyle ':vcs_info:hg*:*' get-revision true
-zstyle ':vcs_info:hg*:*' get-mq false
-zstyle ':vcs_info:hg*+gen-hg-bookmark-string:*' hooks hg-bookmarks
-zstyle ':vcs_info:hg*+set-message:*' hooks hg-message
-
-function +vi-hg-bookmarks() {
-  emulate -L zsh
-  if [[ -n "${hook_com[hg-active-bookmark]}"  ]]; then
-    hook_com[hg-bookmark-string]="${(Mj:,:)@}"
-    ret=1
-  fi
-}
-
-function +vi-hg-message() {
-  emulate -L zsh
-  # Suppress hg branch display if we can display a bookmark instead.
-  if [[ -n "${hook_com[misc]}" ]]; then
-    hook_com[branch]=''
-  fi
-  return 0
-}
-
-function +vi-git-untracked() {
-  emulate -L zsh
-  if [[ -n $(git ls-files --exclude-standard --others 2> /dev/null) ]]; then
-    hook_com[unstaged]+="%F{04}•%f"
-  fi
-}
-
-RPROMPT_BASE="\${vcs_info_msg_0_}%F{04}%1~%f"
-setopt PROMPT_SUBST
-
-function () {
-  if [[ -n "$TMUX"  ]]; then
-    local LVL=$(($SHLVL - 1))
-    #local LVL=1
-  else
-    local LVL=$SHLVL
-  fi
-
-  if [[ $EUID -eq 0  ]]; then
-    local SUFFIX=$(printf '#%.0s' {1..$LVL})
-  else
-    local SUFFIX=$(printf '\$%.0s' {1..$LVL})
-  fi
-  
-  if [[ -n "$TMUX"  ]]; then
-    # Note use a non-breaking space at the end of the prompt because we can use it as
-    # a find pattern to jump back in tmux.
-    local NBSP=' '
-    #export PS1="%F{green}${SSH_TTY:+%n@%m}%f%B${SSH_TTY:+:}%b%F{blue}%1~%F{yellow}%B%(1j.*.)%(?..!)%b%f%F{red}%B${SUFFIX}%b%f${NBSP}"
-    export PS1="%F{green}${SSH_TTY:+%n@%m}%f%B${SSH_TTY:+:}%b%F{08}%n%f%F{03}%B%(1j.*.)%(?..!)%b%f${SUFFIX}${NBSP}%{$reset_color%}"
-    export ZLE_RPROMPT_INDENT=0
-  else
-    # Don't bother with ZLE_RPROMPT_INDENT here, because it ends up eating the
-    # space after PS1.
-    #export PS1="%F{green}${SSH_TTY:+%n@%m}%f%B${SSH_TTY:+:}%b%F{blue}%1~%F{yellow}%B%(1j.*.)%(?..!)%b%f%F{red}%B${SUFFIX}%b%f "
-    export PS1="%F{green}${SSH_TTY:+%n@%m}%f%B${SSH_TTY:+:}%b%F{08}%n%f%F{03}%B%(1j.*.)%(?..!)%b%f${SUFFIX} "
-  fi
-}
-
-
-export RPROMPT=$RPROMPT_BASE
-export SPROMPT="zsh: correct %F{16}'%R'%f to %F{03}'%r'%f [%B%Uy%u%bes, %B%Un%u%bo, %B%Ue%u%bdit, %B%Ua%u%bbort]? "
-
-
-
-#-----------------------------
-# Hooks
-#-----------------------------
-autoload -U add-zsh-hook
-
-typeset -F SECONDS
-function record-start-time() {
-  emulate -L zsh
-  ZSH_START_TIME=${ZSH_START_TIME:-$SECONDS}
-}
-
-function report-start-time() {
-  emulate -L zsh
-  if [ $ZSH_START_TIME  ]; then
-    local DELTA=$(($SECONDS - $ZSH_START_TIME))
-    local DAYS=$((~~($DELTA / 86400)))
-    local HOURS=$((~~(($DELTA - $DAYS * 86400) / 3600)))
-    local MINUTES=$((~~(($DELTA - $DAYS * 86400 - $HOURS * 3600) / 60)))
-    local SECS=$(($DELTA - $DAYS * 86400 - $HOURS * 3600 - $MINUTES * 60))
-    local ELAPSED=''
-    test "$DAYS" != '0' && ELAPSED="${DAYS}d"
-    test "$HOURS" != '0' && ELAPSED="${ELAPSED}${HOURS}h"
-    test "$MINUTES" != '0' && ELAPSED="${ELAPSED}${MINUTES}m"
-    if [ "$ELAPSED" = ''  ]; then
-      SECS="$(print -f "%.2f" $SECS)s"
-    elif [ "$DAYS" != '0'  ]; then	
-      SECS=''
-    else
-      SECS="$((~~$SECS))s"
-    fi
-    ELAPSED="${ELAPSED}${SECS}"
-    local ITALIC_ON=$'\e[3m'
-    local ITALIC_OFF=$'\e[23m'
-    export RPROMPT="%F{cyan}%{$ITALIC_ON%}${ELAPSED}%{$ITALIC_OFF%}%f $RPROMPT_BASE"
-    unset ZSH_START_TIME
-  else
-    export RPROMPT="$RPROMPT_BASE"
-  fi
-}
-
-# Currently not used
-function auto-ls-after-cd() {
-  emulate -L zsh
-  # Only in response to a user-initiated `cd`, not indirectly (eg. via another
-  # function).
-  if [ "$ZSH_EVAL_CONTEXT" = "toplevel:shfunc" ]; then
-    ls -a
-  fi
-}
-
-add-zsh-hook preexec record-start-time
-
-add-zsh-hook precmd report-start-time
-add-zsh-hook precmd vcs_info
-#add-zsh-hook chpwd auto-ls-after-cd
-
-
-#-----------------------------
-# Options
-#-----------------------------
-setopt autocd 		    # .. is shortcut for cd .. (etc)
-setopt autoparamslash       # tab completing directory appends a slash
-setopt autopushd            # cd automatically pushes old dir onto dir stack
-#setopt correct              # command auto-correction
-#setopt correctall           # argument auto-correction
-setopt histignorealldups    # filter duplicates from history
-setopt histignorespace      # don't record commands starting with a space
-setopt histverify 	    # confirm history expansion (!$, !!, !foo)
-setopt interactivecomments  # allow comments, even in interactive shells
-setopt pushdignoredups      # don't push multiple copies of same dir onto stack
-setopt pushdsilent          # don't print dir stack after pushing/popping
-setopt sharehistory 	    # share history across shells
-
-
-#-----------------------------
-# tmux configuration
-#-----------------------------
-function tmux() {
-  emulate -L zsh
-
-  # Make sure even pre-existing tmux sessions use the latest SSH_AUTH_SOCK.
-  # (Inspired by: https://gist.github.com/lann/6771001)
-  local SOCK_SYMLINK=~/.ssh/ssh_auth_sock
-  if [ -r "$SSH_AUTH_SOCK" -a ! -L "$SSH_AUTH_SOCK" ]; then
-    ln -sf "$SSH_AUTH_SOCK" $SOCK_SYMLINK
-  fi
-
-  if [[ -n "$@" ]]; then
-    env SSH_AUTH_SOCK=$SOCK_SYMLINK tmux "$@"
-    return
-  fi
-
-  # Check for .tmux file (poor man's Tmuxinator).
-  if [ -x .tmux ]; then
-    # Prompt the first time we see a given .tmux file before running it.
-    local DIGEST="$(openssl sha1 -sha512 .tmux)"
-    if ! grep -q "$DIGEST" ~/..tmux.digests 2> /dev/null; then
-      cat .tmux
-      read -k 1 -r \
-        'REPLY?Trust (and run) this .tmux file? (t = trust, otherwise = skip) '
-      echo
-      if [[ $REPLY =~ ^[Tt]$ ]]; then
-        echo "$DIGEST" >> ~/..tmux.digests
-        eval ./.tmux
-      return
-      fi
-    else
-      eval ./.tmux
-      return
-    fi
-  fi
-
-  # Attach to existing session, or create one, based on current directory.
-  SESSION_NAME=$(basename "$(pwd)")
-  env SSH_AUTH_SOCK=$SOCK_SYMLINK tmux new -A -s "$SESSION_NAME"
-}
-
-
-export PATH="/usr/local/sbin:$PATH"
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

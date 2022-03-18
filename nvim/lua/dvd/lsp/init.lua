@@ -19,22 +19,32 @@ cmp.setup({
     },
 
     mapping = {
-        ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' }),
         ['<CR>'] = cmp.mapping.confirm({ select = true }),
-        ['<C-e>'] = cmp.mapping.close(),
+        ["<C-Space>"] = cmp.mapping.complete(),
+        ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' }),
+		["<C-u>"] = cmp.mapping.scroll_docs(-4),
+		["<C-d>"] = cmp.mapping.scroll_docs(4),
+        ['<C-e>'] = cmp.mapping({
+            i = cmp.mapping.abort(),
+            c = cmp.mapping.close(),
+        })
     },
 
-    sources = {
+    sources = cmp.config.sources({
         { name = 'nvim_lsp' },
 
         -- For luasnip user.
         { name = 'luasnip' },
 
         { name = 'buffer' },
-    }
+    })
 })
 
 status.activate()
+
+-- check the vim.keymap.set("mode", "key", "right_side_function_call", {buffer=0})
+-- See Bash2Basics tutorial
+
 
 local mapper = function(mode, key, f)
     vim.api.nvim_buf_set_keymap(0, mode, key, "<cmd>lua " .. f .. "<CR>", {noremap = true, silent = true})
@@ -101,4 +111,11 @@ lspconfig.cmake.setup({
     on_attach = custom_attach,
     capabilities = updated_capabilities,
     -- capabilities = nvim_status.capabilities,
+})
+
+lspconfig.rust_analyzer.setup({
+    cmd = { "rustup", "run", "nightly", "rust-analyzer"},
+    on_init = custom_init,
+    on_attach = custom_attach,
+    capabilities = updated_capabilities,
 })

@@ -44,10 +44,10 @@ telescope_mapper('<leader>gwc', 'dvd.telescope', 'worktree_create')
 
 telescope_mapper('<leader>ed', 'dvd.telescope', 'edit_dotfiles')
 
-telescope_mapper('<leader>a', 'dvd.telescope', 'lsp_code_actions')
-telescope_mapper('<leader>s', 'dvd.telescope', 'lsp_document_diagnostics')
+telescope_mapper('<leader>ca', 'dvd.telescope', 'lsp_code_actions')
+telescope_mapper('<leader>cs', 'dvd.telescope', 'lsp_document_diagnostics')
 
-telescope_mapper('<leader>vh', 'dvd.telescope', 'help_tags')
-telescope_mapper('<leader>vw', 'telescope.builtin', 'symbols')
+telescope_mapper('<leader>ht', 'dvd.telescope', 'help_tags')
+telescope_mapper('<leader>hs', 'telescope.builtin', 'symbols')
 
 return telescope_mapper

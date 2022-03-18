@@ -174,7 +174,7 @@ function M.lsp_document_diagnostics()
         border = true,
     }
 
-    require('telescope.builtin').lsp_document_diagnostics(opts)
+    require('telescope.builtin').diagnostics(opts)
 end
 
 

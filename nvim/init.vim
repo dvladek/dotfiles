@@ -35,6 +35,8 @@ Plug 'nvim-telescope/telescope-frecency.nvim'   " Telescope plugin.
 Plug 'nvim-telescope/telescope-github.nvim'     " Telescope plugin.
 Plug 'nvim-telescope/telescope-symbols.nvim'    " Telescope plugin.
 
+Plug 'ThePrimeagen/harpoon'                     " Vim global marks
+
 Plug 'tpope/vim-fugitive'                       " Git file system.
 Plug 'ThePrimeagen/git-worktree.nvim'           " Git worktree.
 
@@ -45,6 +47,8 @@ Plug 'glepnir/lspsaga.nvim'                     " Better UI for LSP (testing).
 Plug 'onsails/lspkind-nvim'                     " LSP icons.
 Plug 'hrsh7th/cmp-nvim-lsp'                     " nvim-cmp source for nvim LSP.
 Plug 'hrsh7th/cmp-buffer'                       " nvim-cmp source for buffer w.
+Plug 'hrsh7th/cmp-path'                         " nvim-cmp source for paths.
+Plug 'hrsh7th/cmp-cmdline'                      " nvim-cmp source for cmdline.
 Plug 'hrsh7th/nvim-cmp'                         " Completion engine plugin LSP.
 
 
@@ -59,14 +63,17 @@ Plug 'rafamadriz/friendly-snippets'             " Snippets
 " Plug 'theHamsta/nvim-dap-virtual-text'          " C++ debug specific (testing).
 " Plug 'nvim-telescope/telescope-dap.nvim'        " (testing).
 
+Plug 'rust-lang/rust.vim'                         " Rust specific.
+" Plug 'simrat39/rust-tools.nvim'                   " Rust specific.
+
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' } " Go specific.
 
 Plug 'junegunn/goyo.vim'                        " Markdown specific.
 
 Plug 'ap/vim-css-color'                         " CSS specific.
 
-" Plug 'Raimondi/delimitMate'                     " Automatic () {} []
-" Plug 'tpope/vim-surround'                       " Better surroundings ''
+Plug 'Raimondi/delimitMate'                     " Automatic () {} []
+Plug 'tpope/vim-surround'                       " Better surroundings ''
 Plug 'tweekmonster/spellrotate.vim'             " Text suggestions (testing).
 
 Plug 'tjdevries/command_and_conquer.nvim'       " Run commands (testing).

@@ -1,5 +1,5 @@
 local has_lsp, lspconfig = pcall(require, 'lspconfig')
-local _, lspconfig_util = pcall(require, 'lspconfig.util')
+local lspconfig_util = pcall(require, 'lspconfig.util')
 
 if not has_lsp then
     return
@@ -7,8 +7,10 @@ end
 
 local cmp = require 'cmp'
 local nvim_status = require 'lsp-status'
-local status = require 'dvd.lsp.status'
+
 local telescope_mapper = require 'dvd.telescope.mappings'
+local status = require 'dvd.lsp.status'
+status.activate()
 
 cmp.setup({
     snippet = {
@@ -22,8 +24,6 @@ cmp.setup({
         ['<CR>'] = cmp.mapping.confirm({ select = true }),
         ["<C-Space>"] = cmp.mapping.complete(),
         ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' }),
-		["<C-u>"] = cmp.mapping.scroll_docs(-4),
-		["<C-d>"] = cmp.mapping.scroll_docs(4),
         ['<C-e>'] = cmp.mapping({
             i = cmp.mapping.abort(),
             c = cmp.mapping.close(),
@@ -40,11 +40,9 @@ cmp.setup({
     })
 })
 
-status.activate()
 
 -- check the vim.keymap.set("mode", "key", "right_side_function_call", {buffer=0})
 -- See Bash2Basics tutorial
-
 
 local mapper = function(mode, key, f)
     vim.api.nvim_buf_set_keymap(0, mode, key, "<cmd>lua " .. f .. "<CR>", {noremap = true, silent = true})

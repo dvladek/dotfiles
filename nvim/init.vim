@@ -53,8 +53,9 @@ Plug 'hrsh7th/nvim-cmp'                         " Completion engine plugin LSP.
 
 
 " Snippets
-Plug 'L3MON4D3/LuaSnip'                         " Snippets
-Plug 'rafamadriz/friendly-snippets'             " Snippets
+" Plug 'L3MON4D3/LuaSnip'                         " Snippets
+" Plug 'rafamadriz/friendly-snippets'             " Snippets
+" Plug 'norcalli/snippets.nvim'                   " Snippets
 
 " Plug 'octol/vim-cpp-enhanced-highlight'         " C++ specific.
 " Plug 'rhysd/vim-clang-format'                   " C++ specific (testing).
@@ -78,75 +79,10 @@ Plug 'tweekmonster/spellrotate.vim'             " Text suggestions (testing).
 
 Plug 'tjdevries/command_and_conquer.nvim'       " Run commands (testing).
 
-Plug 'norcalli/snippets.nvim'                   " Snippets
 
 call plug#end()
 
 lua require'nvim-treesitter.configs'.setup { indent = { enable = true }, highlight = { enable = true }, incremental_selection = { enable = true }, textobjects = { enable = true }}
-
-
-" ----------------------------------------- "
-" Settings                                  "
-" ----------------------------------------- "
-set exrc                                        " Load other vrc files.
-set noerrorbells                                " No beeps.
-set guicursor=                                  " Do not change cursor type in INSERT mode.
-set encoding=utf-8                              " Set default encoding to UTF-8
-set termguicolors                               " Allow 24-bit colors in GUI.
-set splitright                                  " Split vertical windows right to the current windows.
-" set splitbelow                                  " Split horizontal windows below to the current windows.
-set scrolloff=15                                " Keep scrolling to have at least 10 lines in the bottom.
-
-set number relativenumber                       " Show line numbers.
-set noshowmode                                  " We show the mode with airline or lightline.
-set showcmd                                     " Show me what I'm typing.
-set colorcolumn=80
-
-set nohlsearch                                  " No highlight after searching.
-set incsearch                                   " Shows the match while searching.
-set ignorecase                                  " search cse insensitive...
-set smartcase                                   " ...but not when search pattern contains upper case characters.
-
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set expandtab
-set smartindent                                 " Improved indentation.
-set nowrap                                      " No wrapping of lines.
-
-set hidden                                      " Keep other buffers open in background.
-set noswapfile                                  " Do not use swap files.
-set nobackup                                    " Do not create anoying backup files.
-set undodir=~/.vim/undodir                      " Directory to save undo files.
-set undofile                                    " Create an undo file per buffer file.
-set autowrite                                   " Automatically save before :next, :make, etc.
-set autoread                                    " Automatically read changed files without asking.
-set updatetime=50                               " Increase the updatetime for smoother experience.
-
-set backspace=indent,eol,start                  " Makes backspace key more powerful.
-set laststatus=2                                " Lightline configuration.
-
-
-" ----------------------------------------- "
-" File Type settings                        "
-" ----------------------------------------- "
-
-" Ignore compiled files
-set wildignore+=*~,
-set wildignore+=*.o,
-set wildignore+=*.pyc,
-set wildignore+=**__pycache__/*
-set wildignore+=**/pycache/*,
-set wildignore+=**/.cache/*,
-set wildignore+=**/node_modules/*
-set wildignore+=**/.git/*
-set wildignore+=**/DS_Store/*
-
-" Wrap tex files
-augroup WrapLineInTeXFile
-    autocmd!
-    autocmd FileType tex setlocal wrap
-augroup END
 
 " ----------------------------------------- "
 " Syntax                                    "
@@ -154,8 +90,6 @@ augroup END
 syntax enable
 let base16colorspace=256
 colorscheme base16-tomorrow-night
-" colorscheme gruvbox
-" lua require('colorbuddy').colorscheme('gruvbuddy')
 
 
 " ----------------------------------------- "

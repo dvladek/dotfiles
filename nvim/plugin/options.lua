@@ -48,7 +48,6 @@ opt.pumblend = 17                               -- testing
 opt.wildmode = "longest:full"                   -- testing
 opt.wildoptions = "pum"                         -- testing
 
-
 -- -----------------------------------------
 -- File Type settings
 -- -----------------------------------------

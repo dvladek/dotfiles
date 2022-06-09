@@ -51,12 +51,6 @@ Plug 'hrsh7th/cmp-path'                         " nvim-cmp source for paths.
 Plug 'hrsh7th/cmp-cmdline'                      " nvim-cmp source for cmdline.
 Plug 'hrsh7th/nvim-cmp'                         " Completion engine plugin LSP.
 
-
-" Snippets
-" Plug 'L3MON4D3/LuaSnip'                         " Snippets
-" Plug 'rafamadriz/friendly-snippets'             " Snippets
-" Plug 'norcalli/snippets.nvim'                   " Snippets
-
 " Plug 'octol/vim-cpp-enhanced-highlight'         " C++ specific.
 " Plug 'rhysd/vim-clang-format'                   " C++ specific (testing).
 " Plug 'mfussenegger/nvim-dap'                    " C++ debug specific (testing).
@@ -87,10 +81,9 @@ lua require'nvim-treesitter.configs'.setup { indent = { enable = true }, highlig
 " ----------------------------------------- "
 " Syntax                                    "
 " ----------------------------------------- "
-syntax enable
 let base16colorspace=256
 colorscheme base16-tomorrow-night
-
+highlight WinSeparator guibg=None
 
 " ----------------------------------------- "
 " Mappings                                  "

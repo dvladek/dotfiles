@@ -5,6 +5,7 @@ require("dvd.set")
 require("dvd.packer")
 require("dvd.keymap")
 require("dvd.telescope")
+require("dvd.lsp")
 
 local autocmd = vim.api.nvim_create_autocmd
 local yank_group = augroup('HighlightYank', {})

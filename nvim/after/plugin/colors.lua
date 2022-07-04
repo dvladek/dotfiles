@@ -1,4 +1,5 @@
 vim.g.dvd_colorscheme = "base16-tomorrow-night"
+-- vim.g.dvd_colorscheme = "nord"
 
 function ColorVim()
     vim.cmd("colorscheme " .. vim.g.dvd_colorscheme)

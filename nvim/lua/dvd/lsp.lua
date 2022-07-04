@@ -10,11 +10,9 @@ lspinstall.setup({
         "cmake",
         "cssls",
         "dockerls",
-        -- "gopls",
         "html",
         "jsonls",
         "texlab",
-        -- "sumneko_lua",
         "pyright",
         "rust_analyzer",
         "taplo",
@@ -75,9 +73,6 @@ cmp.setup({
 })
 
 
-
-
-
 local lspconfig = require("lspconfig")
 
 local custom_init = function(client)
@@ -86,14 +81,16 @@ local custom_init = function(client)
 end
 
 local custom_attach = function(client)
-    local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
+    -- local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
 
     nnoremap("K", function() vim.lsp.buf.hover() end)
     nnoremap("gD", function() vim.lsp.buf.definition() end)
-    -- nvim_status.on_attach(client)
 end
 
 local updated_capabilities = vim.lsp.protocol.make_client_capabilities()
+updated_capabilities.textDocument.completion.completionItem.snippetSupport = true
+-- updated_capabilities = vim.tbl_deep_extend("keep", updated_capabilities, lsp_status.capabilities)
+updated_capabilities.textDocument.codeLens = { dynamicRegistration = false }
 updated_capabilities = require("cmp_nvim_lsp").update_capabilities(updated_capabilities)
 
 lspconfig.clangd.setup({
@@ -111,27 +108,24 @@ lspconfig.clangd.setup({
     on_attach = custom_attach,
 
     -- Required for lsp-status
-    -- init_options = {
-        -- clangdFileStatus = true,
-    --},
+    init_options = {
+        clangdFileStatus = true,
+    },
 
-    -- handlers = nvim_status.extensions.clangd.setup(),
+    --handlers = lsp_status and lsp_status.extensions.clangd.setup(),
     capabilities = updated_capabilities,
-    -- capabilities = nvim_status.capabilities,
 })
 
 lspconfig.cmake.setup({
     on_init = custom_init,
     on_attach = custom_attach,
     capabilities = updated_capabilities,
-    -- capabilities = nvim_status.capabilities,
 })
 
 lspconfig.pyright.setup({
     on_init = custom_init,
     on_attach = custom_attach,
     capabilities = updated_capabilities,
-    -- capabilities = nvim_status.capabilities,
 })
 
 lspconfig.rust_analyzer.setup({

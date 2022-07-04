@@ -1,11 +1,13 @@
 local augroup = vim.api.nvim_create_augroup
 DVDGroup = augroup('DVD', {})
 
-require("dvd.set")
+require("dvd.options")
 require("dvd.packer")
 require("dvd.keymap")
 require("dvd.telescope")
 require("dvd.lsp")
+-- require("dvd.dap")
+require("dvd.luasnip")
 
 local autocmd = vim.api.nvim_create_autocmd
 local yank_group = augroup('HighlightYank', {})

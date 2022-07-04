@@ -5,15 +5,24 @@ return require("packer").startup(function()
     use("mhinz/vim-startify")
 
     -- Colorschemes
-    use("chriskempson/base16-vim")
+    use("base16-project/base16-vim")
+    use("arcticicestudio/nord-vim")
     use("gruvbox-community/gruvbox")
 
     -- Icons
     use("kyazdani42/nvim-web-devicons")
 
+    -- statusline
+    use("tjdevries/express_line.nvim")
+    use("j-hui/fidget.nvim")
+    -- use("feline-nvim/feline.nvim")
+
     -- Color parsing
     use({"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"})
     use("nvim-treesitter/playground")
+
+    -- Notifications (some day)
+    -- use("rcarriga/nvim-notify")
 
     -- Git file system
     use("TimUntersberger/neogit")
@@ -34,7 +43,6 @@ return require("packer").startup(function()
     use("williamboman/nvim-lsp-installer")
     use("neovim/nvim-lspconfig")
     use("onsails/lspkind-nvim")
-    use("glepnir/lspsaga.nvim")
     use("nvim-lua/lsp_extensions.nvim")
 
     use("hrsh7th/nvim-cmp")
@@ -46,15 +54,17 @@ return require("packer").startup(function()
     use("L3MON4D3/LuaSnip")
     use("saadparwaiz1/cmp_luasnip")
 
-    -- TODO(dvladek): Add all DAP stuff first!!!
+    -- TODO(dvladek): I need to understand DAP better before using it!
+    -- Debug Adapter Protocol
+    -- use("mfussenegger/nvim-dap")
+    -- use("rcarriga/nvim-dap-ui")
+    -- use("theHamsta/nvim-dap-virtual-text")
+
+    --use("mfussenegger/nvim-dap-python")
+
     -- Adds client-side code for codelenses commands that are not available in the language servers.
     -- use("ericpubu/lsp_codelens_extensions.nvim")
-    --
-    --
-    --
-    -- This is a Neovim plugin/library for generating statusline components from the built-in LSP client.
-    -- use("wbthomason/lsp-status.nvim")
 
-
+    use("wbthomason/lsp-status.nvim")
 
 end)

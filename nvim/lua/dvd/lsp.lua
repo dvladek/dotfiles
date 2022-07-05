@@ -1,6 +1,5 @@
 local Remap = require("dvd.keymap")
 local nnoremap = Remap.nnoremap
-local inoremap = Remap.inoremap
 
 local lspinstall = require("nvim-lsp-installer")
 

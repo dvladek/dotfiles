@@ -35,6 +35,9 @@ return require("packer").startup(function()
 
     -- Telescope plugin
     use("nvim-telescope/telescope.nvim")
+    use("nvim-telescope/telescope-file-browser.nvim")
+    use("nvim-telescope/telescope-ui-select.nvim")
+    -- use("nvim-telescope/telescope-bibtex.nvim")
 
     -- Vim global marks
     use("ThePrimeagen/harpoon")

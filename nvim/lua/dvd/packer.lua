@@ -8,6 +8,8 @@ return require("packer").startup(function()
     use("base16-project/base16-vim")
     use("arcticicestudio/nord-vim")
     use("gruvbox-community/gruvbox")
+    use("sainnhe/everforest")
+    use("EdenEast/nightfox.nvim")
 
     -- Icons
     use("kyazdani42/nvim-web-devicons")

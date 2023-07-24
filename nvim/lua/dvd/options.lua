@@ -7,6 +7,7 @@ opt.termguicolors = true                            -- Allow 24-bit colors in GU
 opt.splitright = true                               -- Split vertical windows right to the current windows.
 opt.splitbelow = true                               -- Split horizontal windows below to the current windows.
 opt.laststatus = 3                                  -- Lightline configuration.
+opt.winbar = "%f"                                   -- Sticky top filename.
 opt.scrolloff = 10                                  -- Keep scrolling to have at least 10 lines in the bottom.
 opt.cmdheight = 1                                   -- Give more space for displaying messages.
 

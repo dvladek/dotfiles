@@ -13,5 +13,5 @@ nnoremap("<leader>h", function() vim.lsp.buf.hover() end)
 
 nnoremap("ca", function() vim.lsp.buf.code_action() end)
 nnoremap("cd", function() require("dvd.telescope").lsp_diagnostics() end)
-nnoremap("cf", function() vim.lsp.buf.formatting() end)
+nnoremap("cf", function() vim.lsp.buf.format() end)
 nnoremap("cr", function() vim.lsp.buf.rename() end)

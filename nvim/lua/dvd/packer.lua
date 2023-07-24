@@ -27,7 +27,7 @@ return require("packer").startup(function()
     -- use("rcarriga/nvim-notify")
 
     -- Git file system
-    use("TimUntersberger/neogit")
+    use({"NeogitOrg/neogit", requires = "nvim-lua/plenary.nvim"})
     use("ThePrimeagen/git-worktree.nvim")
     use("mbbill/undotree")
 
@@ -58,6 +58,7 @@ return require("packer").startup(function()
 
     use("L3MON4D3/LuaSnip")
     use("saadparwaiz1/cmp_luasnip")
+
 
     -- TODO(dvladek): I need to understand DAP better before using it!
     -- Debug Adapter Protocol

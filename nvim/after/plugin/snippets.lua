@@ -15,6 +15,22 @@ ls.add_snippets("all", {
             t "FIXME(dvladek): ",
             t "NOTE(dvladek): "
         })
+    ),
+    s(
+        "fixme",
+        c(1, {
+            t "FIXME(dvladek): ",
+            t "NOTE(dvladek): ",
+            t "TODO(dvladek): "
+        })
+    ),
+    s(
+        "note",
+        c(1, {
+            t "NOTE(dvladek): ",
+            t "TODO(dvladek): ",
+            t "FIXME(dvladek): "
+        })
     )
 })
 

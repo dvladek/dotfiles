@@ -7,7 +7,7 @@ nnoremap("<C-p>", function()
 end)
 
 -- search in project (with preview)
-nnoremap("<C-o>", function()
+nnoremap("<C-å>", function()
     require("telescope.builtin").git_files()
 end)
 

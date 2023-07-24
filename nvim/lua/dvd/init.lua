@@ -8,6 +8,7 @@ require("dvd.telescope")
 require("dvd.lsp")
 -- require("dvd.dap")
 require("dvd.luasnip")
+require("dvd.neogit")
 
 local autocmd = vim.api.nvim_create_autocmd
 local yank_group = augroup('HighlightYank', {})

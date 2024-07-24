@@ -45,6 +45,8 @@ return require("packer").startup(function()
     use("ThePrimeagen/harpoon")
 
     -- Language server protocol
+    -- use("williamboman/mason.nvim")
+    -- use("williamboman/mason-lspconfig.nvim")
     use("williamboman/nvim-lsp-installer")
     use("neovim/nvim-lspconfig")
     use("onsails/lspkind-nvim")
@@ -59,6 +61,9 @@ return require("packer").startup(function()
     use("L3MON4D3/LuaSnip")
     use("saadparwaiz1/cmp_luasnip")
 
+
+    -- Learn
+    use("ThePrimeagen/vim-be-good")
 
     -- TODO(dvladek): I need to understand DAP better before using it!
     -- Debug Adapter Protocol

@@ -15,6 +15,7 @@ lspinstall.setup({
         "pyright",
         "rust_analyzer",
         "taplo",
+        "tsserver",
         "yamlls",
     },
 

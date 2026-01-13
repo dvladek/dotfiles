@@ -55,46 +55,49 @@ return {
         }
       })
 
-      require("mason-lspconfig").setup_handlers({
-        function(server_name) -- default handler (optional)
-          require("lspconfig")[server_name].setup {
-            capabilities = capabilities
-          }
-        end,
+      ---@diagnostic disable-next-line: missing-fields
+      require("mason-lspconfig").setup({
+        handlers = {
+          function(server_name) -- default handler (optional)
+            require("lspconfig")[server_name].setup {
+              capabilities = capabilities
+            }
+          end,
 
-        ['clangd'] = function()
-          require('lspconfig').clangd.setup({
-            cmd = {
-              'clangd',
-              '--background-index',
-              '--suggest-missing-includes',
-              '--clang-tidy',
-              '--header-insertion=iwyu',
-            },
-            init_options = {
-              clangdFileStatus = true
-            },
-            filetypes = { 'c', 'cpp', 'cxx', 'h', 'hpp', 'hxx', 'ipp', 'objc', 'objcpp' },
-            capabilities = capabilities,
-          })
-        end,
+          ['clangd'] = function()
+            require('lspconfig').clangd.setup({
+              cmd = {
+                'clangd',
+                '--background-index',
+                '--suggest-missing-includes',
+                '--clang-tidy',
+                '--header-insertion=iwyu',
+              },
+              init_options = {
+                clangdFileStatus = true
+              },
+              filetypes = { 'c', 'cpp', 'cxx', 'h', 'hpp', 'hxx', 'ipp', 'objc', 'objcpp' },
+              capabilities = capabilities,
+            })
+          end,
 
-        ['pylsp'] = function()
-          require('lspconfig').pylsp.setup({
-            capabilities = capabilities,
-          })
-        end,
+          ['pylsp'] = function()
+            require('lspconfig').pylsp.setup({
+              capabilities = capabilities,
+            })
+          end,
 
-        ['ts_ls'] = function()
-          require('lspconfig').ts_ls.setup({
-            root_dir = require('lspconfig').util.root_pattern 'package.json',
-            single_file = false,
-            server_capabilities = {
-              documentFormattingProvider = false,
-            },
-            capabilities = capabilities,
-          })
-        end,
+          ['ts_ls'] = function()
+            require('lspconfig').ts_ls.setup({
+              root_dir = require('lspconfig').util.root_pattern 'package.json',
+              single_file = false,
+              server_capabilities = {
+                documentFormattingProvider = false,
+              },
+              capabilities = capabilities,
+            })
+          end,
+        }
       })
 
       --[[

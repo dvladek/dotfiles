@@ -1,6 +1,7 @@
 require('config.lazy')
 require('config.options')
 require('config.keymaps')
+require('config.build')
 
 local augroup = vim.api.nvim_create_augroup
 local DVDGroup = augroup('DVD', {})

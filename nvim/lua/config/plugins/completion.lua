@@ -14,7 +14,7 @@ return {
         ['<Tab>'] = { 'select_next', 'fallback' },
 
         ['<C-k>'] = { 'snippet_forward', 'fallback' },
-        ['C-t'] = { 'snippet_backward', 'fallback' },
+        ['<C-j>'] = { 'snippet_backward', 'fallback' },
 
         ['<C-y>'] = {},
         ['<C-n>'] = {},
@@ -66,8 +66,8 @@ return {
       local ls = require('luasnip')
       ls.filetype_extend('javascript', { 'jsdoc' })
 
-      vim.keymap.set({ 'i', 's' }, '<C-k>', function() ls.jump(1) end, { silent = true })
-      vim.keymap.set({ 'i', 's' }, '<C-j>', function() ls.jump(-1) end, { silent = true })
+      -- vim.keymap.set({ 'i', 's' }, '<C-n>', function() ls.jump(1) end, { silent = true })
+      -- vim.keymap.set({ 'i', 's' }, '<C-b>', function() ls.jump(-1) end, { silent = true })
       vim.keymap.set({ 'i', 's' }, '<C-ö>', function()
         if ls.choice_active() then
           ls.change_choice(1)

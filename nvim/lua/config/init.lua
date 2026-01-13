@@ -1,7 +1,6 @@
 require('config.lazy')
 require('config.options')
 require('config.keymaps')
-require('config.build')
 
 local augroup = vim.api.nvim_create_augroup
 local DVDGroup = augroup('DVD', {})
@@ -25,4 +24,16 @@ autocmd({ 'BufWritePre' }, {
   group = DVDGroup,
   pattern = '*',
   command = [[%s/\s\+$//e]],
+})
+
+autocmd({ 'TermOpen' }, {
+  group = DVDGroup,
+  callback = function(ev)
+    -- In terminal mode, 'qq' closes the terminal *window*
+    vim.keymap.set('t', 'qq', [[<C-\><C-n>:close<CR>]], {
+        buffer = ev.buf,
+        silent = true,
+        desc = 'Close terminal window'
+    })
+  end,
 })
